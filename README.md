@@ -114,8 +114,6 @@ envmerge resolve --path ./services/api
 
 ## Get it
 
-**$29** — one-time purchase, standalone macOS/Linux/Windows binary.
-
 👉 [Download on Gumroad](https://ecent.gumroad.com/l/junnll)
 
 ---
