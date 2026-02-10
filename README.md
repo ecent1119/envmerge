@@ -112,6 +112,18 @@ envmerge resolve --path ./services/api
 
 ---
 
+## Common problems this solves
+
+- "docker compose env variable precedence"
+- "which env file wins docker"
+- "env override not working docker compose"
+- "trace environment variable source docker"
+- "debug wrong env value docker"
+- ".env.local vs .env docker compose"
+- "environment variable resolution order"
+
+---
+
 ## Get it
 
 👉 [Download on Gumroad](https://ecent.gumroad.com/l/junnll)
@@ -126,6 +138,10 @@ envmerge resolve --path ./services/api
 | **[envgraph](https://github.com/ecent119/envgraph)** | Visualize env var dependencies |
 | **[envdoc](https://github.com/ecent119/envdoc)** | Generate env documentation |
 | **[compose-flatten](https://github.com/ecent119/compose-flatten)** | Merge compose files |
+
+---
+
+If this tool saved you time, consider starring the repo.
 
 ---
 
