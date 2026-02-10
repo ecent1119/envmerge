@@ -1,0 +1,22 @@
+{
+  "name": "envmerge",
+  "display_name": "EnvMerge",
+  "tagline": "Environment Resolution Inspector",
+  "description": "Resolve and inspect final environment variable values with full precedence chain visibility.",
+  "version": "1.0.0",
+  "price_usd": 29,
+  "gumroad_url": "https://ecent.gumroad.com/l/junnll",
+  "category": "utility",
+  "tags": ["docker", "compose", "environment", "resolution", "debugging"],
+  "features": [
+    "Multi-layer env resolution",
+    "Precedence chain tracking",
+    "Override detection",
+    "Variable source tracing",
+    "Multiple output formats"
+  ],
+  "platforms": ["darwin-amd64", "darwin-arm64", "linux-amd64", "linux-arm64", "windows-amd64"],
+  "repository": "https://github.com/ecent119/envmerge",
+  "commands": ["resolve"],
+  "related": ["envgraph", "envdoc", "compose-flatten", "stackgen"]
+}
