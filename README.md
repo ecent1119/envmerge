@@ -23,6 +23,15 @@ See exactly how your environment variables resolve.
 
 ---
 
+## New in v2.0
+
+- **Include OS environment** — add system env vars to resolution chain
+- **Per-service filtering** — see only vars for a specific service
+- **Environment comparison** — compare resolved vars between directories
+- **Strict mode** — fail if any variables are undefined
+
+---
+
 ## Example output
 
 ```
