@@ -1,150 +1,97 @@
 # envmerge
 
-See exactly how your environment variables resolve.
+**Free and open source** — Environment Resolution Inspector. Explain what env values actually resolve to, and why.
 
----
+## The Problem
 
-## The problem
+Developers don't understand env precedence across:
 
-- `.env`, `.env.local`, `.env.development`, compose inline — which one wins?
-- Variables get overridden and you don't know where the final value comes from
-- Debugging "wrong value" issues means grepping through 5+ files
-- Team members have different local overrides causing "works on my machine"
+- `.env`
+- `.env.local`
+- `.env.example`
+- compose `env_file`
+- compose inline `environment`
 
----
+This causes silent misconfigurations that waste hours of debugging.
 
-## What it does
+## What It Does
 
-- Scans all env sources: `.env`, `.env.local`, `.env.*.local`, compose files
-- Shows the **final resolved value** for each variable
-- Traces the **precedence chain** — see exactly which file "won"
-- Detects **overrides** and shows what was overwritten
-- Outputs in text, JSON, or markdown
+- Resolves final value per variable
+- Shows the complete precedence chain
+- Flags conflicts and overrides
+- Optionally emits a resolved `.env.effective` file
+- **Include OS environment variables** in resolution chain
+- **Per-service filtering** to see only one service's vars
+- **Compare environments** between directories
+- **Strict mode** to fail on undefined variables
 
----
-
-## New in v2.0
-
-- **Include OS environment** — add system env vars to resolution chain
-- **Per-service filtering** — see only vars for a specific service
-- **Environment comparison** — compare resolved vars between directories
-- **Strict mode** — fail if any variables are undefined
-
----
-
-## Example output
-
-```
-$ envmerge resolve
-
-Environment Resolution Report
-=============================
-
-DATABASE_URL = postgres://localhost/myapp
-  └─ .env (base)
-  └─ .env.local (override) ✓ FINAL
-
-API_KEY = sk-dev-xxxxx
-  └─ .env (base)
-  └─ docker-compose.yml:services.api.environment (override) ✓ FINAL
-
-DEBUG = true
-  └─ .env.development (base) ✓ FINAL
-
-PORT = 3000
-  └─ .env (base)
-  └─ .env.local (override)
-  └─ .env.development.local (override) ✓ FINAL
-
-Resolved: 24 variables from 5 sources
-Overrides detected: 8
-```
-
----
-
-## Precedence order
-
-From lowest to highest:
-
-1. `.env` — base defaults
-2. `.env.local` — local overrides (gitignored)
-3. `.env.{environment}` — environment-specific
-4. `.env.{environment}.local` — environment + local
-5. `docker-compose.yml` inline environment
-6. `docker-compose.override.yml` inline environment
-
----
-
-## Commands
+## Usage
 
 ```bash
-# Show resolved values
-envmerge resolve
+# Scan current directory
+envmerge scan
 
-# Show full chain for specific variable
-envmerge resolve --var DATABASE_URL
+# Output effective env file
+envmerge scan --output .env.effective
 
-# Output as JSON for scripting
-envmerge resolve --format json
+# JSON output for scripting
+envmerge scan --format json
 
-# Check a specific directory
-envmerge resolve --path ./services/api
+# Markdown for documentation
+envmerge scan --format markdown
+
+# Include OS environment variables
+envmerge scan --include-os-env
+
+# Show only variables for a specific service
+envmerge scan --service api
+
+# Fail if any variables are undefined
+envmerge scan --strict
+
+# Compare two environments
+envmerge scan --compare ./staging
 ```
 
----
+## Example Output
 
-## Use cases
-
-- **Debugging**: "Why is my API_KEY wrong?" — see the override chain
-- **Onboarding**: Show new devs what variables they need to set locally
-- **CI validation**: Ensure all required variables resolve to non-placeholder values
-- **Documentation**: Generate env docs with source information
-
----
+```
+DATABASE_URL
+  final: postgres://prod.example.com/db
+  from: docker-compose.yml (service: api)
+  chain:
+    → docker-compose.yml:15 = postgres://prod.example.com/db
+      .env.local:3 = postgres://localhost/dev
+      .env:3 = postgres://localhost/db
+```
 
 ## Scope
 
-- Local development and testing only
-- Read-only analysis of files
-- No secrets management
-- No cloud provider integration
-- No telemetry, no network calls
+- **Read-only** by default
+- **Local development** focused
+- **Observational** — does not modify your environment
 
----
+## Installation
 
-## Common problems this solves
+Download the appropriate binary for your platform from the GitHub releases page.
 
-- "docker compose env variable precedence"
-- "which env file wins docker"
-- "env override not working docker compose"
-- "trace environment variable source docker"
-- "debug wrong env value docker"
-- ".env.local vs .env docker compose"
-- "environment variable resolution order"
+## Related Tools
 
----
+- [stackgen](https://github.com/ecent1119/stackgen) — Generate local Docker Compose stacks
+- [envgraph](https://github.com/ecent1119/envgraph) — Visualize env variable dependencies
+- [compose-diff](https://github.com/ecent1119/compose-diff) — Semantic diff for compose files
+- [devcheck](https://github.com/ecent1119/devcheck) — Local project readiness inspector
 
-## Get it
+## Support This Project
 
-👉 [Download on Gumroad](https://ecent.gumroad.com/l/junnll)
+**envmerge is free and open source.**
 
----
+If this tool saved you time, consider sponsoring:
 
-## Related tools
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?logo=github)](https://github.com/sponsors/ecent1119)
 
-| Tool | Purpose |
-|------|---------|
-| **[stackgen](https://github.com/ecent119/stackgen)** | Generate Docker Compose stacks |
-| **[envgraph](https://github.com/ecent119/envgraph)** | Visualize env var dependencies |
-| **[envdoc](https://github.com/ecent119/envdoc)** | Generate env documentation |
-| **[compose-flatten](https://github.com/ecent119/compose-flatten)** | Merge compose files |
-
----
-
-If this tool saved you time, consider starring the repo.
-
----
+Your support helps maintain and improve this tool.
 
 ## License
 
-MIT — this repository contains documentation and examples only.
+MIT License. See LICENSE file.
